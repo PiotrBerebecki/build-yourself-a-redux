@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators } from './_my_redux';
 import { changeSync } from './02_actions';
 
 import './Playground.css';

@@ -30,3 +30,22 @@ export function combineReducers(reducers) {
     }, {});
   };
 }
+
+function mapValues(obj, fn) {
+  return Object.keys(obj).reduce((result, key) => {
+    result[key] = fn(obj[key], key);
+    return result;
+  }, {});
+}
+
+function bindActionCreator(actionCreator, dispatch) {
+  return (...args) => dispatch(actionCreator(...args));
+}
+
+export function bindActionCreators(actionCreators, dispatch) {
+  return typeof actionCreators === 'function'
+    ? bindActionCreator(actionCreators, dispatch)
+    : mapValues(actionCreators, actionCreator =>
+        bindActionCreator(actionCreator, dispatch)
+      );
+}
