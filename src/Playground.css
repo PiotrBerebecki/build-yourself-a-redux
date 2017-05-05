@@ -1,0 +1,17 @@
+.square {
+  display: block;
+  width: 200px;
+  height: 200px;
+  border: 1px solid #ccc;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.square__sync--light {
+  background-color: #ddd;
+}
+
+.square__sync--dark {
+  background-color: #777;
+}
