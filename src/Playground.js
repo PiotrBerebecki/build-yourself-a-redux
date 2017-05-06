@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+
+import { connect } from './_my_react_redux';
+// import { connect } from './+my_react_redux';
+// import { connect } from 'react-redux';
+//
 import { bindActionCreators } from './_my_redux';
+// import { bindActionCreators } from './+my_redux';
+// import { bindActionCreators } from 'redux';
+
 import { changeSync } from './02_actions';
 
 import './Playground.css';
@@ -12,7 +19,6 @@ class Playground extends Component {
   };
 
   render() {
-    // console.log('in playground', this.props.theme);
     return (
       <div>
 
@@ -24,20 +30,14 @@ class Playground extends Component {
           <p>{this.props.theme}</p>
         </div>
 
-        <h2>Click on async square</h2>
+        <h2>TBC - Click on async square</h2>
         <img className="square" src="" alt="placeholder" />
       </div>
     );
   }
 }
 
-// const mapStateToProps = state => ({
-//   theme: state.theme,
-// });
-//
-
 const mapStateToProps = state => {
-  // console.log('Playground', state);
   return {
     theme: state.theme,
   };
