@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { store } from './index';
+
+// No need to connect directly to store thanks to react's context
+// import { store } from './index';
 
 import { PropTypes } from 'prop-types';
 
@@ -23,35 +25,53 @@ Provider.childContextTypes = {
 };
 
 // *****************************************************
-// connect - HOC which has been decorated with props giving access to
-// store.getState() and store.dispatch
+// connect - HOC which has been decorated with props giving
+// the wrapped component access to store.getState() and store.dispatch
 // *****************************************************
 export function connect(mapStateToProps, mapDispatchToProps) {
   return function(WrappedComponent) {
-    return class extends Component {
-      componentDidMount() {
-        this.unsubscribe = store.subscribe(this.handleChange.bind(this));
+    class ConnectedToStore extends Component {
+      componentWillMount() {
+        this.handleChange(this.props);
+        this.unsubscribe = this.context.store.subscribe(() =>
+          this.handleChange(this.props)
+        );
+      }
+
+      handleChange = props => {
+        const stateProps = mapStateToProps(
+          this.context.store.getState(),
+          props
+        );
+
+        const dispatchProps = mapDispatchToProps(
+          this.context.store.dispatch,
+          props
+        );
+
+        this.setState({
+          ...stateProps,
+          ...dispatchProps,
+        });
+      };
+
+      componentWillReceiveProps(nextProps) {
+        this.handleChange(nextProps);
       }
 
       componentWillUnmount() {
         this.unsubscribe();
       }
 
-      handleChange() {
-        this.forceUpdate();
-      }
-
       render() {
-        return (
-          <WrappedComponent
-            {...this.props}
-            // spreading state as props
-            {...mapStateToProps(store.getState(), this.props)}
-            // spreading dispatch (wrapping action creators) as props
-            {...mapDispatchToProps(store.dispatch, this.props)}
-          />
-        );
+        return <WrappedComponent {...this.state} {...this.props} />;
       }
+    }
+
+    ConnectedToStore.contextTypes = {
+      store: PropTypes.object,
     };
+
+    return ConnectedToStore;
   };
 }

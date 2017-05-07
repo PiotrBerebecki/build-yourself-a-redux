@@ -10,8 +10,6 @@ import { bindActionCreators } from './_my_redux';
 
 import { changeSync } from './02_actions';
 
-import './Playground.css';
-
 class Playground extends Component {
   changeTheme = () => {
     const nextTheme = this.props.theme === 'light' ? 'dark' : 'light';
@@ -22,12 +20,14 @@ class Playground extends Component {
     return (
       <div>
 
-        <h2>Click on sync square</h2>
+        <h2>Sync action</h2>
         <div
           className={`square square__sync--${this.props.theme}`}
           onClick={this.changeTheme}
         >
+          <p>Click to dispatch a sync action</p>
           <p>{this.props.theme}</p>
+          <p>{this.props.counter}</p>
         </div>
 
         <h2>TBC - Click on async square</h2>
@@ -37,9 +37,9 @@ class Playground extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    theme: state.theme,
+    theme: ownProps.counter % 2 === 0 ? 'color' : state.theme,
   };
 };
 

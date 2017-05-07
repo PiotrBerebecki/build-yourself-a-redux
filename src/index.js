@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './index.css';
 
 // createstore ************************************
 import { createStore } from './_my_redux';
@@ -15,7 +16,7 @@ import rootReducer from './05_reducerRoot.js';
 
 import App from './App';
 
-export const store = createStore(rootReducer);
+const store = createStore(rootReducer);
 
 ReactDOM.render(
   <Provider store={store}>
