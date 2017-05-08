@@ -64,7 +64,9 @@ export function createStore(reducer, preloadedState, enhancer) {
 // *****************************************************
 export function combineReducers(reducers) {
   return (state = {}, action) => {
-    return mapValues(reducers, (reducer, key) => reducer(state[key], action));
+    return mapValues(reducers, (reducer, key) => {
+      return reducer(state[key], action);
+    });
   };
 }
 
@@ -95,9 +97,9 @@ export function bindActionCreators(actionCreators, dispatch) {
     return bindActionCreator(actionCreators, dispatch);
   }
 
-  return mapValues(actionCreators, actionCreator =>
-    bindActionCreator(actionCreator, dispatch)
-  );
+  return mapValues(actionCreators, actionCreator => {
+    return bindActionCreator(actionCreator, dispatch);
+  });
 }
 
 // export function bindActionCreators(actionCreators, dispatch) {
