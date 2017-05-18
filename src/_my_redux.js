@@ -1,3 +1,6 @@
+// *****************************************************
+// createStore - holds the state tree
+// *****************************************************
 export function createStore(reducer, preloadedState, enhancer) {
   if (typeof preloadedState === 'function' && typeof enhancer === 'undefined') {
     enhancer = preloadedState;
